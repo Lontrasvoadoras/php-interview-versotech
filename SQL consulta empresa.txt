@@ -1,0 +1,259 @@
+-- Table EMPRESAS--
+
+CREATE TABLE EMPRESAS (
+  id_empresa INT PRIMARY KEY,
+  razao_social VARCHAR(255) NOT NULL,
+  inativo BOOLEAN NOT NULL
+);
+
+-- Table PRODUTOS--
+
+CREATE TABLE PRODUTOS (
+  id_produto INT PRIMARY KEY,
+  descricao TEXT NULL,
+  inativo BOOLEAN NOT NULL
+);
+
+-- Table VENDEDORES--
+
+CREATE TABLE VENDEDORES (
+  id_vendedor INT PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  cargo VARCHAR(45) NOT NULL,
+  salario NUMERIC NOT NULL,
+  data_admissao DATE NOT NULL,
+  inativo BOOLEAN NOT NULL
+);
+
+-- Table CLIENTES--
+
+CREATE TABLE CLIENTES (
+  id_cliente INT PRIMARY KEY,
+  razao_social VARCHAR(255) NOT NULL,
+  data_cadastro DATE NOT NULL,
+  id_vendedor INT NOT NULL REFERENCES VENDEDORES(id_vendedor),
+  id_empresa INT NOT NULL REFERENCES EMPRESAS(id_empresa),
+  inativo BOOLEAN NOT NULL
+);
+
+-- Table CONFIG_PRECO_PRODUTOS--
+
+CREATE TABLE CONFIG_PRECO_PRODUTOS (
+  id_config_preco_produto INT PRIMARY KEY,
+  id_vendedor INT NOT NULL REFERENCES VENDEDORES(id_vendedor),
+  id_empresa INT NOT NULL REFERENCES EMPRESAS(id_empresa),
+  id_produto INT NOT NULL REFERENCES PRODUTOS(id_produto),
+  preco_minimo INT NOT NULL,
+  preco_maximo INT NOT NULL
+);
+
+-- Table PEDIDOS--
+
+CREATE TABLE PEDIDOS (
+  id_pedido SERIAL PRIMARY KEY,
+  id_empresa INT NOT NULL REFERENCES EMPRESAS(id_empresa),
+  id_cliente INT NOT NULL REFERENCES CLIENTES(id_cliente),
+  valor_total NUMERIC NOT NULL,
+  data_emissao DATE NOT NULL,
+  situacao BOOLEAN NOT NULL
+);
+
+
+-- Table ITENS_PEDIDOS--
+
+CREATE TABLE ITENS_PEDIDOS (
+  id_item_pedido INT PRIMARY KEY,
+  id_pedido SERIAL NOT NULL REFERENCES PEDIDOS(id_pedido),
+  id_produto INT NOT NULL REFERENCES PRODUTOS(id_produto),
+  preco_praticado NUMERIC NOT NULL,
+  quantidade INT NOT NULL
+);
+
+
+-- Inserção de dados na tabela EMPRESAS--
+
+INSERT INTO EMPRESAS (id_empresa, razao_social, inativo) VALUES
+(1, 'Empresa ABC', FALSE),
+(2, 'Empresa XYZ', FALSE),
+(3, 'Empresa QRS', TRUE),
+(4, 'Apple Inc.', FALSE),
+(5, 'Microsoft Corporation', FALSE),
+(6, 'Amazon.com, Inc.', TRUE),
+(7, 'Google LLC', FALSE);
+
+-- Inserção de dados na tabela PRODUTOS--
+
+INSERT INTO PRODUTOS (id_produto, descricao, inativo) VALUES
+(1, 'Produto 1', FALSE),
+(2, 'Produto 2', FALSE),
+(3, 'Produto 3', TRUE),
+(4, 'iPhone 13', FALSE),
+(5, 'Surface Laptop', FALSE),
+(6, 'Kindle Paperwhite', TRUE),
+(7, 'Google Pixel 6', FALSE);
+
+-- Inserção de dados na tabela VENDEDORES--
+
+INSERT INTO VENDEDORES (id_vendedor, nome, cargo, salario, data_admissao, inativo) VALUES
+(1, 'João Silva', 'Vendedor Sênior', 6800, '2020-03-20', FALSE),
+(2, 'Maria Santos', 'Analista de Vendas', 4800, '2022-03-20', FALSE),
+(3, 'Pedro Oliveira', 'Gerente de Vendas', 9800, '2018-03-20', FALSE),
+(4, 'Ana Costa', 'Vendedor Júnior', 3800, '2023-03-20', FALSE),
+(5, 'Lucas Oliveira', 'Vendedor Sênior', 7500, '2019-05-10', FALSE),
+(6, 'Juliana Santos', 'Analista de Vendas', 5500, '2020-07-15', FALSE),
+(7, 'Pedro Henrique', 'Gerente de Vendas', 10500, '2017-02-20', FALSE),
+(8, 'Carla Lima', 'Vendedor Júnior', 4500, '2021-09-25', FALSE);
+
+-- Inserção de dados na tabela CLIENTES--
+
+INSERT INTO CLIENTES (id_cliente, razao_social, data_cadastro, id_vendedor, id_empresa, inativo) VALUES
+(1, 'Cliente A', '2020-01-01', 1, 1, FALSE),
+(2, 'Cliente B', '2021-02-02', 2, 2, FALSE),
+(3, 'Cliente C', '2019-03-03', 3, 1, TRUE),
+(4, 'Cliente D', '2022-04-04', 4, 2, FALSE),
+(5, 'Supermercado Bom Preço', '2018-04-20', 5, 4, FALSE),
+(6, 'Lojas Americanas S.A.', '2019-08-12', 6, 5, FALSE),
+(7, 'Livraria Cultura', '2017-11-30', 7, 4, TRUE),
+(8, 'Drogaria São Paulo', '2020-03-05', 8, 5, FALSE);
+
+-- Inserção de dados na tabela CONFIG_PRECO_PRODUTOS--
+
+INSERT INTO CONFIG_PRECO_PRODUTOS (id_config_preco_produto, id_vendedor, id_empresa, id_produto, preco_minimo, preco_maximo) VALUES
+(1, 1, 1, 1, 100, 200),
+(2, 2, 2, 2, 150, 250),
+(3, 3, 1, 3, 200, 300),
+(4, 4, 2, 1, 120, 220),
+(5, 5, 4, 4, 800, 1000),
+(6, 6, 5, 5, 1000, 1200),
+(7, 7, 4, 6, 200, 300),
+(8, 8, 5, 7, 700, 900),
+(9, 5, 4, 4, 850, 1100),
+(10, 6, 5, 5, 950, 1250),
+(11, 7, 4, 6, 220, 320),
+(12, 8, 5, 7, 720, 950);
+
+
+-- Inserção de dados na tabela PEDIDOS--
+
+INSERT INTO PEDIDOS (id_empresa, id_cliente, valor_total, data_emissao, situacao) VALUES
+(1, 1, 500, '2024-01-01', TRUE),
+(2, 2, 700, '2024-02-02', TRUE),
+(1, 3, 900, '2024-03-03', FALSE),
+(2, 4, 600, '2024-04-04', TRUE),
+(3, 5, 2000, '2024-01-15', TRUE),
+(4, 6, 3500, '2024-02-20', TRUE),
+(3, 7, 1500, '2024-03-25', FALSE),
+(4, 8, 2800, '2024-04-30', TRUE),
+(3, 6, 1800, '2024-05-10', TRUE),
+(4, 5, 2100, '2024-06-15', TRUE);
+
+-- Inserção de dados na tabela ITENS_PEDIDOS--
+
+INSERT INTO ITENS_PEDIDOS (id_item_pedido, id_pedido, id_produto, preco_praticado, quantidade) VALUES
+(1, 1, 1, 150, 3),
+(2, 2, 2, 200, 2),
+(3, 3, 3, 250, 4),
+(4, 4, 1, 180, 5);
+(5, 3, 4, 900, 2),
+(6, 4, 5, 1100, 3),
+(7, 5, 6, 250, 5),
+(8, 6, 7, 800, 4),
+(9, 7, 4, 950, 2),
+(10, 8, 5, 1050, 3),
+(11, 9, 6, 280, 5),
+(12, 10, 7, 750, 4);
+
+
+
+-- Lista de funcionários ordenando pelo salário decrescente:--
+
+SELECT id_vendedor, nome, salario
+FROM VENDEDORES
+ORDER BY salario DESC;
+
+-- Lista de pedidos de vendas ordenados por data de emissão:--
+
+SELECT id_pedido, id_empresa, id_cliente, valor_total, data_emissao
+FROM PEDIDOS
+ORDER BY data_emissao;
+
+-- Valor de faturamento por cliente:--
+
+SELECT id_cliente, SUM(valor_total) AS faturamento
+FROM PEDIDOS
+GROUP BY id_cliente ORDER BY faturamento ASC;
+
+--Valor de faturamento por empresa:--
+
+SELECT p.id_empresa, SUM(valor_total) AS faturamento
+FROM PEDIDOS p
+JOIN CLIENTES c ON p.id_cliente = c.id_cliente
+GROUP BY p.id_empresa order by faturamento asc;
+
+--Valor de faturamento por vendedor:--
+
+SELECT v.id_vendedor, v.nome, SUM(p.valor_total) AS faturamento
+FROM PEDIDOS p
+JOIN CLIENTES c ON p.id_cliente = c.id_cliente
+JOIN VENDEDORES v ON c.id_vendedor = v.id_vendedor
+GROUP BY v.id_vendedor, v.nome order by faturamento asc;
+
+
+-- Consultas de Junção:
+Escreva consultas SQL para obter as seguintes informações usando junções:
+Unindo a listagem de produtos com a listagem de clientes, procure o último preço praticado nesse cliente com esse produto, formule o preço base do produto dentro da coluna chamada preco_base no seu select, conforme a seguinte regra:
+O preço base do produto deve obedecer a configuração de preço da tabela CONFIG_PRECO_PRODUTO.
+Caso as junções não retornem o último preço praticado, utilize o menor da configuração de preço do produto.
+Nesta mesma consulta, os seguintes campos deverão estar contidos:
+Id do produto em questão;
+Descrição do produto;
+Id do cliente do pedido;
+Razão social do cliente;
+Id da empresa do pedido;
+Razão social da empresa;
+Id do vendedor do pedido;
+Nome do vendedor;
+Preço mínimo e máximo da configuração de preço;
+Preço base do produto conforme a regra. --
+
+
+SELECT 
+    p.id_produto,
+    p.descricao AS descricao_produto,
+    c.id_cliente,
+    c.razao_social AS razao_social_cliente,
+    pe.id_empresa,
+    e.razao_social AS razao_social_empresa,
+    c.id_vendedor,
+    v.nome AS nome_vendedor,
+    cp.preco_minimo,
+    cp.preco_maximo,
+    COALESCE(MAX(ip.preco_praticado), cp.preco_minimo) AS preco_base
+FROM 
+    PRODUTOS p
+JOIN 
+    CONFIG_PRECO_PRODUTOS cp ON p.id_produto = cp.id_produto
+JOIN 
+    PEDIDOS pe ON p.id_produto = ANY(SELECT id_produto FROM ITENS_PEDIDOS WHERE id_pedido = pe.id_pedido LIMIT 1)
+JOIN 
+    CLIENTES c ON pe.id_cliente = c.id_cliente
+JOIN 
+    VENDEDORES v ON c.id_vendedor = v.id_vendedor
+JOIN 
+    EMPRESAS e ON pe.id_empresa = e.id_empresa
+LEFT JOIN 
+    ITENS_PEDIDOS ip ON pe.id_pedido = ip.id_pedido AND p.id_produto = ip.id_produto
+GROUP BY 
+    p.id_produto,
+    p.descricao,
+    c.id_cliente,
+    c.razao_social,
+    pe.id_empresa,
+    e.razao_social,
+    c.id_vendedor,
+    v.nome,
+    cp.preco_minimo,
+    cp.preco_maximo;
+
+
+
