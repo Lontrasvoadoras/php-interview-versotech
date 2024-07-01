@@ -153,7 +153,7 @@ INSERT INTO ITENS_PEDIDOS (id_item_pedido, id_pedido, id_produto, preco_praticad
 (1, 1, 1, 150, 3),
 (2, 2, 2, 200, 2),
 (3, 3, 3, 250, 4),
-(4, 4, 1, 180, 5);
+(4, 4, 1, 180, 5),
 (5, 3, 4, 900, 2),
 (6, 4, 5, 1100, 3),
 (7, 5, 6, 250, 5),
@@ -199,22 +199,7 @@ JOIN VENDEDORES v ON c.id_vendedor = v.id_vendedor
 GROUP BY v.id_vendedor, v.nome order by faturamento asc;
 
 
--- Consultas de Junção:
-Escreva consultas SQL para obter as seguintes informações usando junções:
-Unindo a listagem de produtos com a listagem de clientes, procure o último preço praticado nesse cliente com esse produto, formule o preço base do produto dentro da coluna chamada preco_base no seu select, conforme a seguinte regra:
-O preço base do produto deve obedecer a configuração de preço da tabela CONFIG_PRECO_PRODUTO.
-Caso as junções não retornem o último preço praticado, utilize o menor da configuração de preço do produto.
-Nesta mesma consulta, os seguintes campos deverão estar contidos:
-Id do produto em questão;
-Descrição do produto;
-Id do cliente do pedido;
-Razão social do cliente;
-Id da empresa do pedido;
-Razão social da empresa;
-Id do vendedor do pedido;
-Nome do vendedor;
-Preço mínimo e máximo da configuração de preço;
-Preço base do produto conforme a regra. --
+-- Consultas de Junção: --
 
 
 SELECT 
