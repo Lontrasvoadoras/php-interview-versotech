@@ -9,6 +9,6 @@ Foram adicionadas novas atribuições ao código para melhorar a experiência do
 5. É possivel navegar livremente entre as paginas
 6. Aproveite e clique no botão do whatsapp para me mandar uma mensagem com o feedback do código!
 
-Quanto as tabelas e consultas no postgres, a baixo o modelo e o resultado das consultas, modelo podendo ser reproduzido pelo arquivo SQL.txt
+Quanto as tabelas e consultas no postgres, a baixo o modelo criado para o banco de dados. Consultas podendo ser reproduzidas aplicando a sessão de consultas do arquivo SQL.txt quando aplicado ao query tools do pgAdmin4
 
 ![Untitled](https://github.com/Lontrasvoadoras/php-interview-versotech/assets/88471165/4cc20820-33a0-4cda-8aae-e7feaad30d56)
