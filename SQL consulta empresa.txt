@@ -163,7 +163,7 @@ INSERT INTO ITENS_PEDIDOS (id_item_pedido, id_pedido, id_produto, preco_praticad
 (11, 9, 6, 280, 5),
 (12, 10, 7, 750, 4);
 
-
+-- Consultas! --
 
 -- Lista de funcionários ordenando pelo salário decrescente:--
 
